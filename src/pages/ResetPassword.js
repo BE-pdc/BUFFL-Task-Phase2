@@ -7,7 +7,7 @@ import FormLink from '../components/AccountForms/FormLink';
 import FormButton from '../components/AccountForms/FormButton';
 import FormLabelInput from '../components/AccountForms/FormLabelInput';
 
-const Login = () => {
+const ResetPassword = () => {
   return (
     <div className={AccFormCSS.page_container}>
       <FormHeader />
@@ -16,14 +16,14 @@ const Login = () => {
           <img src={blueBlob} alt="Blue Blob" />
         </div>
         <div className={AccFormCSS.form_wrapper}>
-          <h1>Login</h1>
+          <h1>Reset wachtwoord</h1>
           <form className={AccFormCSS.form} action="">
             <FormLabelInput label="E-mail" type="email" />
-            <br />
-            <FormLabelInput label="Wachtwoord" type="password" />
-            <FormButton text="Login" act={() => console.log('login')} />
-            <FormLink text="Nog geen account aangemaakt? Registreer" link="@" />
-            <FormLink text="Je wachtwoord vergeten? Reset het hier" link="@" />
+            <FormButton
+              text="Reset wachtwoord"
+              act={() => console.log('reset wachtwoord')}
+            />
+            <FormLink text="Reeds een account aangemaakt? Login" link="@" />
           </form>
         </div>
         <div className={AccFormCSS.blob}>
@@ -34,4 +34,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ResetPassword;

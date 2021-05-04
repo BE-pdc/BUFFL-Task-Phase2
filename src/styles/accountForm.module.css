@@ -28,33 +28,33 @@
   width: 100%;
 }
 
-.login_form {
+.form {
   width: 80%;
   display: flex;
   flex-direction: column;
   font-family: Open_Sans;
 }
 
-.login_form label {
+.form label {
   font-size: small;
   font-weight: bold;
 }
 
-.login_form input {
+.form input {
   padding: 10px 0 5px 0;
   border: none;
   border-bottom: 1px solid black;
 }
 
-.login_form input[type='password'] {
+.form input[type='password'] {
   font-size: 1.2em;
 }
 
-.login_form input:focus {
+.form input:focus {
   outline: none;
 }
 
-.login_form button {
+.form button {
   align-self: center;
   background-color: var(--electric-ultramarine);
   color: var(--white);
@@ -69,7 +69,7 @@
   cursor: pointer;
 }
 
-.login_form a {
+.form a {
   font-size: 1.2em;
   margin-top: 10px;
   align-self: center;
@@ -77,6 +77,6 @@
   color: var(--electric-ultramarine);
 }
 
-.login_form a:first-of-type {
+.form a:first-of-type {
   margin-top: 40px;
 }

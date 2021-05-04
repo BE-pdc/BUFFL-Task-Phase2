@@ -1,4 +1,4 @@
-header {
+.header {
   display: flex;
   font-family: Open_Sans;
   font-size: 1.2em;
@@ -8,7 +8,7 @@ header {
   margin-bottom: 30px;
 }
 
-.title {
+.header span {
   border-left: 1px solid var(--black);
   padding-left: 5px;
   text-transform: uppercase;
