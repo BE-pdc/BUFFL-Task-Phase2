@@ -47,6 +47,7 @@ const SurveyTable = ({
       {
         Header: 'description',
         accessor: 'description',
+        disableSortBy: true,
       },
       {
         Header: 'target',
@@ -59,6 +60,7 @@ const SurveyTable = ({
       {
         Header: 'status',
         accessor: 'status',
+        disableSortBy: true,
       },
     ],
     []
