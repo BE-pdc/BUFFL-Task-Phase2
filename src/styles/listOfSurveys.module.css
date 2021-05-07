@@ -1,0 +1,46 @@
+.my_surveys {
+  width: 1000px;
+  margin: 0 auto;
+  padding-bottom: 100px;
+  font-family: Open_Sans;
+  /* background-color: red; */
+}
+
+.my_surveys h1 {
+  font-family: Roboto;
+  font-size: 3em;
+  margin: 0;
+}
+
+.title_btn_new_survey {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin: 50px 0 25px 0;
+}
+
+.title_btn_new_survey button {
+  cursor: pointer;
+}
+
+.btn_new_survey {
+  display: flex;
+  align-items: center;
+  font-family: Open_Sans;
+  font-size: 1.3em;
+  padding: 12px 15px;
+  color: var(--white);
+  background: var(--electric-ultramarine);
+  border: none;
+  border-radius: 5px;
+}
+
+.plus {
+  font-size: 2em;
+  line-height: 10px;
+}
+
+.btn_new_survey span:nth-of-type(2) {
+  margin-left: 5px;
+}

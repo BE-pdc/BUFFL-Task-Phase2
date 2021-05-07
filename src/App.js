@@ -1,4 +1,5 @@
 import './App.css';
+import ListOfSurveys from './pages/ListOfSurveys';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 import ResetPassword from './pages/ResetPassword';
@@ -8,7 +9,8 @@ function App() {
     <div className="App">
       {/* <Login /> */}
       {/* <ResetPassword /> */}
-      <Registration />
+      {/* <Registration /> */}
+      <ListOfSurveys />
     </div>
   );
 }
