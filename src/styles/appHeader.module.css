@@ -10,15 +10,46 @@
   letter-spacing: 0.5px;
 }
 
-.header div,
+.header div:not(.logout),
 .header img {
   height: 100%;
 }
 
-.header span {
+.version {
   margin-left: 5px;
 }
 
-.client_logo {
+.client img {
   margin-right: 5px;
+}
+
+.client:hover {
+  cursor: pointer;
+}
+
+.logout {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  position: fixed;
+  top: 45px;
+  right: 15px;
+  background-color: var(--white);
+  color: var(--black);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px,
+    rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+.logout span:first-child {
+  font-weight: bold;
+}
+
+.logout span {
+  cursor: pointer;
+  font-family: Open_Sans;
+  padding: 10px 15px;
+}
+
+.logout span:last-of-type:active {
+  background-color: var(--bright-gray);
 }

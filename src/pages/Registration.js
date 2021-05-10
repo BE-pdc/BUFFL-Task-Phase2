@@ -6,6 +6,7 @@ import FormHeader from '../components/AccountForms/FormHeader';
 import FormLink from '../components/AccountForms/FormLink';
 import FormButton from '../components/AccountForms/FormButton';
 import FormLabelInput from '../components/AccountForms/FormLabelInput';
+import { withRouter } from 'react-router';
 
 const Registration = () => {
   return (
@@ -35,7 +36,10 @@ const Registration = () => {
               text="Registreer"
               act={() => console.log('registreer')}
             />
-            <FormLink text="Reeds een account aangemaakt? Login" link="@" />
+            <FormLink
+              text="Reeds een account aangemaakt? Login"
+              link="/login"
+            />
           </form>
         </div>
         <div className={AccFormCSS.blob}>
@@ -46,4 +50,4 @@ const Registration = () => {
   );
 };
 
-export default Registration;
+export default withRouter(Registration);
