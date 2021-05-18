@@ -19,6 +19,11 @@
   margin-left: 5px;
 }
 
+.title {
+  margin-left: 20px;
+  cursor: pointer;
+}
+
 .client img {
   margin-right: 5px;
 }

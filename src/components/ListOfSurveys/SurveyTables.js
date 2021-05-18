@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SurveyTablesCSS from './../../styles/surveyTables.module.css';
 import _ from 'lodash';
 import MOCK_DATA from '../../assets/MOCK_DATA.json';

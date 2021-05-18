@@ -5,7 +5,7 @@ import Client_Logo from './../assets/images/client_icon.svg';
 import White_Arrow_Down from './../assets/images/white-arrow-down.svg';
 import AppHeaderCSS from './../styles/appHeader.module.css';
 
-const AppHeader = ({ loggedInAs, setLoggedInAs, setIsAuth }) => {
+const AppHeader = ({ loggedInAs, setLoggedInAs, setIsAuth, title }) => {
   const [displayLogout, setDisplayLogout] = useState(false);
 
   useEffect(() => {
@@ -36,6 +36,10 @@ const AppHeader = ({ loggedInAs, setLoggedInAs, setIsAuth }) => {
       <div>
         <img src={Buffl_Logo_White_Small} alt="Buffl logo white small" />
         <span className={AppHeaderCSS.version}>v{packageJson.version}</span>
+        <label htmlFor="submitAddEditForm" className={AppHeaderCSS.title}>
+          {' '}
+          {title ? '< ' + title : ''}
+        </label>
       </div>
       <div className={AppHeaderCSS.client} onClick={() => toggleLogout()}>
         <img src={Client_Logo} alt="Client logo" />

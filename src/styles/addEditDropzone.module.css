@@ -1,0 +1,50 @@
+.container {
+}
+
+.dropzone {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  font-family: Open_Sans;
+  border: 2px dashed var(--philippine-gray);
+}
+
+.dropzone button {
+  cursor: pointer;
+  border: 1px solid var(--philippine-gray);
+  border-radius: 5px;
+  padding: 10px 50px;
+  margin: 20px auto auto;
+  font-family: Open_Sans;
+}
+
+.dropzone p {
+  margin: 20px auto;
+  font-size: 1.5em;
+}
+
+.upload_preview {
+  display: flex;
+  margin-top: 15px;
+}
+
+.upload_preview img {
+  position: relative;
+}
+
+.upload_preview button {
+  cursor: pointer;
+  background-color: var(--electric-ultramarine);
+  color: var(--white);
+  border: none;
+  border-radius: 20px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  transform: translate(-10px, -10px);
+  font-weight: bold;
+}
