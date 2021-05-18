@@ -4,7 +4,13 @@ const FormLabelInput = (props) => {
   return (
     <>
       <label htmlFor={props.label}>{props.label}</label>
-      <input id={props.id} type={props.type} name={props.label} />
+      <input
+        id={props.id}
+        type={props.type}
+        name={props.label}
+        min={props.min}
+        max={props.max}
+      />
     </>
   );
 };

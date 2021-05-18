@@ -3,7 +3,6 @@ import { useSortBy, useTable } from 'react-table';
 import SurveyTableCSS from './../../styles/surveyTable.module.css';
 import StarUnchecked from './../../assets/images/star_unchecked.svg';
 import StarChecked from './../../assets/images/star_checked.svg';
-import WhiteArrowDown from './../../assets/images/white-arrow-down.svg';
 import BlueArrowDown from './../../assets/images/dropdown-arrow-blue.svg';
 
 const SurveyTable = ({
@@ -16,8 +15,7 @@ const SurveyTable = ({
   const [emptyList, setEmptyList] = useState();
 
   useEffect(() => {
-    if (dataToDisplay.length == 0) {
-      console.log('EMPTY');
+    if (dataToDisplay.length === 0) {
       setEmptyList(true);
     } else {
       setEmptyList(false);
@@ -74,13 +72,8 @@ const SurveyTable = ({
     useSortBy
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = surveyTable;
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    surveyTable;
 
   return (
     <table
