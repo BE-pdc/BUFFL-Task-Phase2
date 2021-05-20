@@ -3,45 +3,69 @@ import SurveyTablesCSS from './../../styles/surveyTables.module.css';
 import _ from 'lodash';
 import MOCK_DATA from '../../assets/MOCK_DATA.json';
 import SurveyTable from './SurveyTable';
+import { gql, useQuery } from '@apollo/client';
+
+const GET_SURVEYS = gql`
+  query GetSurveys {
+    surveys {
+      _id
+      name
+      picURL
+      created
+      description
+      target
+      responses
+      status
+    }
+  }
+`;
 
 const SurveyTables = () => {
-  const [myFavoriteSurveys, setMyFavoriteSurveys] = useState([1, 3, 4, 6]);
+  const { loading, error, data } = useQuery(GET_SURVEYS);
+  const [myFavoriteSurveys, setMyFavoriteSurveys] = useState([]);
   const [myFavSurveysList, setMyFavSurveysList] = useState([]);
   const [otherCampaigns, setOtherCampaigns] = useState([]);
 
   useEffect(() => {
-    const favSurvers = MOCK_DATA.filter((x) =>
-      myFavoriteSurveys.includes(x.id)
-    );
-    setMyFavSurveysList(favSurvers);
-  }, [myFavoriteSurveys]);
+    if (data) {
+      const favSurvers = data.surveys.filter((x) =>
+        myFavoriteSurveys.includes(x._id)
+      );
+      setMyFavSurveysList(favSurvers);
+    }
+  }, [myFavoriteSurveys, data]);
 
   useEffect(() => {
-    const otherCampaigns = MOCK_DATA.filter(
-      (x) => !myFavoriteSurveys.includes(x.id)
-    );
-    setOtherCampaigns(otherCampaigns);
-  }, [myFavoriteSurveys]);
+    if (data) {
+      const otherCampaigns = data.surveys.filter(
+        (x) => !myFavoriteSurveys.includes(x._id)
+      );
+      setOtherCampaigns(otherCampaigns);
+    }
+  }, [myFavoriteSurveys, data]);
 
   const addSurveyToFav = (index) => {
-    if (!myFavoriteSurveys.includes(otherCampaigns[index].id)) {
+    if (!myFavoriteSurveys.includes(otherCampaigns[index]._id)) {
       const newFavSurveys = _.concat(
         myFavoriteSurveys,
-        otherCampaigns[index].id
+        otherCampaigns[index]._id
       );
       setMyFavoriteSurveys(newFavSurveys);
     }
   };
 
   const removeSurveyFromFav = (index) => {
-    if (myFavoriteSurveys.includes(myFavSurveysList[index].id)) {
+    if (myFavoriteSurveys.includes(myFavSurveysList[index]._id)) {
       const newFavSurveys = _.remove(
         myFavoriteSurveys,
-        (x) => x !== myFavSurveysList[index].id
+        (x) => x !== myFavSurveysList[index]._id
       );
       setMyFavoriteSurveys(newFavSurveys);
     }
   };
+
+  if (loading) return 'Loading...';
+  if (error) return `Error: ${error.message}`;
 
   return (
     <div className={SurveyTablesCSS.surveys_table}>

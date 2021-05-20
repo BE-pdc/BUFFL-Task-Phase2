@@ -28,37 +28,53 @@ const SurveyTable = ({
         Header: '',
         accessor: 'favorite',
         disableSortBy: true,
+        maxWidth: 40,
+        minWidth: 20,
       },
       {
         Header: '',
         accessor: 'picture',
         disableSortBy: true,
+        maxWidth: 40,
+        minWidth: 20,
       },
       {
         Header: 'survey name',
         accessor: 'name',
+        maxWidth: 50,
+        minWidth: 50,
       },
       {
         Header: 'created',
         accessor: 'created',
+        maxWidth: 170,
+        minWidth: 170,
       },
       {
         Header: 'description',
         accessor: 'description',
         disableSortBy: true,
+        maxWidth: 250,
+        minWidth: 250,
       },
       {
         Header: 'target',
         accessor: 'target',
+        maxWidth: 50,
+        minWidth: 50,
       },
       {
         Header: 'responses',
         accessor: 'responses',
+        maxWidth: 50,
+        minWidth: 20,
       },
       {
         Header: 'status',
         accessor: 'status',
         disableSortBy: true,
+        maxWidth: 50,
+        minWidth: 50,
       },
     ],
     []
@@ -151,7 +167,11 @@ const SurveyTable = ({
                       return (
                         <td key={cell.column.id}>
                           <div className={SurveyTableCSS.picture_wrapper}>
-                            <img src={cell.row.original.picture} alt="" />
+                            <img
+                              width="40"
+                              src={cell.row.original.picURL}
+                              alt=""
+                            />
                           </div>
                         </td>
                       );
@@ -171,7 +191,16 @@ const SurveyTable = ({
                       );
                     default:
                       return (
-                        <td key={cell.column.id} {...cell.getCellProps()}>
+                        <td
+                          key={cell.column.id}
+                          {...cell.getCellProps({
+                            style: {
+                              maxWidth: cell.column.maxWidth,
+                              minWidth: cell.column.minWidth,
+                              width: cell.column.width,
+                            },
+                          })}
+                        >
                           {cell.render('Cell')}
                         </td>
                       );
