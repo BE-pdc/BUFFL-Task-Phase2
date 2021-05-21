@@ -10,6 +10,7 @@ const FormLabelInput = (props) => {
         name={props.label}
         min={props.min}
         max={props.max}
+        defaultValue={props.txt}
       />
     </>
   );

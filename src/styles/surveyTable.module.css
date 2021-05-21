@@ -36,7 +36,7 @@
   font-size: 1.3em;
 }
 
-.data_row td {
+.data_row td:not(:last-child) {
   word-wrap: break-word;
   padding: 15px 15px 15px 0;
   border-top: 1px solid var(--bright-gray);
@@ -57,7 +57,7 @@
   padding-right: 20px;
 }
 
-.data_row span:first-of-type {
+.data_row > td > span:first-of-type {
   color: var(--electric-ultramarine);
   font-weight: bold;
 }
@@ -82,6 +82,39 @@
 
 .manage_survey {
   cursor: pointer;
+  position: relative;
+}
+
+.manage_survey button {
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  font-family: Open_Sans;
+  background-color: transparent;
+}
+
+.manage_survey:hover .trash_can {
+  display: flex;
+}
+
+.trash_can {
+  font-size: 0.7em;
+  display: none;
+  justify-content: flex-start;
+  color: var(--philippine-gray);
+  position: absolute;
+  right: 0;
+  min-width: 100px;
+  padding: 15px;
+  background-color: var(--white);
+  border: 1px solid var(--philippine-gray);
+  border-radius: 5px;
+  margin-top: 10px;
+  z-index: 1;
+}
+
+.trash_can span {
+  margin-left: 10px;
 }
 
 .hidden {

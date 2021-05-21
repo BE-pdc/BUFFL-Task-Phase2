@@ -4,6 +4,18 @@ import SurveyTableCSS from './../../styles/surveyTable.module.css';
 import StarUnchecked from './../../assets/images/star_unchecked.svg';
 import StarChecked from './../../assets/images/star_checked.svg';
 import BlueArrowDown from './../../assets/images/dropdown-arrow-blue.svg';
+import TrashCan from './../../assets/images/trash.svg';
+import { gql, useMutation } from '@apollo/client';
+import { useHistory } from 'react-router';
+
+const DELETE_SURVEY = gql`
+  mutation deleteSurvey($survId: ID!) {
+    deleteSurvey(id: $survId) {
+      _id
+      name
+    }
+  }
+`;
 
 const SurveyTable = ({
   dataToDisplay,
@@ -11,14 +23,19 @@ const SurveyTable = ({
   addSurveyToFav,
   removeSurveyFromFav,
   noDataText,
+  refetchData,
 }) => {
+  let history = useHistory();
   const [emptyList, setEmptyList] = useState();
+  const [deleteSurvey] = useMutation(DELETE_SURVEY);
 
   useEffect(() => {
-    if (dataToDisplay.length === 0) {
-      setEmptyList(true);
-    } else {
-      setEmptyList(false);
+    if (dataToDisplay !== null) {
+      if (dataToDisplay.length === 0) {
+        setEmptyList(true);
+      } else {
+        setEmptyList(false);
+      }
     }
   }, [dataToDisplay]);
 
@@ -90,6 +107,28 @@ const SurveyTable = ({
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     surveyTable;
+
+  const delSurvey = (id) => {
+    deleteSurvey({
+      variables: {
+        survId: id,
+      },
+    }).catch((err) => console.error(err));
+  };
+
+  const updSurvey = (survey) => {
+    history.push('/add-edit-form', {
+      _id: survey._id,
+      name: survey.name,
+      picURL: survey.picURL,
+      created: survey.created,
+      description: survey.description,
+      target: survey.target,
+      responses: survey.responses,
+      status: survey.status,
+      isEditing: true,
+    });
+  };
 
   return (
     <table
@@ -177,7 +216,10 @@ const SurveyTable = ({
                       );
                     case 'name':
                       return (
-                        <td key={cell.column.id}>
+                        <td
+                          key={cell.column.id}
+                          onClick={() => updSurvey(row.original)}
+                        >
                           <span>{cell.row.original.name}</span>
                           <br />
                           <span>client-email@buffl.be</span>
@@ -185,7 +227,10 @@ const SurveyTable = ({
                       );
                     case 'status':
                       return (
-                        <td key={cell.column.id}>
+                        <td
+                          key={cell.column.id}
+                          onClick={() => updSurvey(row.original)}
+                        >
                           {cell.row.original.status ? 'Published' : 'Testing'}
                         </td>
                       );
@@ -200,19 +245,23 @@ const SurveyTable = ({
                               width: cell.column.width,
                             },
                           })}
+                          onClick={() => updSurvey(row.original)}
                         >
                           {cell.render('Cell')}
                         </td>
                       );
                   }
                 })}
-                <td
-                  className={SurveyTableCSS.manage_survey}
-                  onClick={() =>
-                    console.log('manage survey: ' + row.original.id)
-                  }
-                >
-                  ...
+                <td className={SurveyTableCSS.manage_survey}>
+                  {/* ... */}
+                  <button>...</button>
+                  <div
+                    className={SurveyTableCSS.trash_can}
+                    onClick={() => delSurvey(row.original._id)}
+                  >
+                    <img src={TrashCan} alt="trash icon" />
+                    <span>DELETE</span>
+                  </div>
                 </td>
               </tr>
             );
