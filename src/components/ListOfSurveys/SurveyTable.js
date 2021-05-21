@@ -17,6 +17,21 @@ const DELETE_SURVEY = gql`
   }
 `;
 
+const GET_SURVEYS = gql`
+  query GetSurveys {
+    surveys {
+      _id
+      name
+      picURL
+      created
+      description
+      target
+      responses
+      status
+    }
+  }
+`;
+
 const SurveyTable = ({
   dataToDisplay,
   showStar,
@@ -27,7 +42,13 @@ const SurveyTable = ({
 }) => {
   let history = useHistory();
   const [emptyList, setEmptyList] = useState();
-  const [deleteSurvey] = useMutation(DELETE_SURVEY);
+  const [deleteSurvey] = useMutation(DELETE_SURVEY, {
+    refetchQueries: [
+      {
+        query: GET_SURVEYS,
+      },
+    ],
+  });
 
   useEffect(() => {
     if (dataToDisplay !== null) {
