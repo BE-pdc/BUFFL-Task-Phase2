@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import AddEditDropZoneCSS from './../styles/addEditDropzone.module.css';
 
-const AddEditDropzone = ({ setImage }) => {
+const AddEditDropzone = ({ image, setImage }) => {
   const [files, setFiles] = useState([]);
 
   const CLOUDINARY_URL =
@@ -54,14 +54,27 @@ const AddEditDropzone = ({ setImage }) => {
     setFiles([]);
   };
 
-  const uploadPreview = files.map((file) => (
-    <div key={file.name} className={AddEditDropZoneCSS.container}>
+  const onPictureChange = (e) => {
+    setImage(e);
+  };
+
+  const uploadPreview = image ? (
+    <div key={image} className={AddEditDropZoneCSS.container}>
       <div className={AddEditDropZoneCSS.upload_preview}>
-        <img width="250" src={file.preview} alt="upload preview" />
+        <img width="500" src={image} alt="add mode" />
         <button onClick={() => removeImage()}>X</button>
       </div>
     </div>
-  ));
+  ) : (
+    files.map((file) => (
+      <div key={file.name} className={AddEditDropZoneCSS.container}>
+        <div className={AddEditDropZoneCSS.upload_preview}>
+          <img width="500" src={file.preview} alt="add mode" />
+          <button onClick={() => removeImage()}>X</button>
+        </div>
+      </div>
+    ))
+  );
 
   useEffect(() => {
     files.forEach((file) => URL.revokeObjectURL(file.preview));
@@ -70,15 +83,17 @@ const AddEditDropzone = ({ setImage }) => {
   return (
     <div className="container">
       <div {...getRootProps({ className: 'dropzone' })}>
-        <input {...getInputProps()} />
-        {files.length === 0 && (
-          <div id="dropzone" className={AddEditDropZoneCSS.dropzone}>
-            <button type="button" onClick={open}>
-              Select a file
-            </button>
-            <p>or drag and drop a file here</p>
-          </div>
-        )}
+        <input {...getInputProps({ onChange: onPictureChange })} />
+        {!image
+          ? files.length === 0 && (
+              <div id="dropzone" className={AddEditDropZoneCSS.dropzone}>
+                <button type="button" onClick={open}>
+                  Select a file
+                </button>
+                <p>or drag and drop a file here</p>
+              </div>
+            )
+          : null}
       </div>
       <aside>{uploadPreview}</aside>
     </div>

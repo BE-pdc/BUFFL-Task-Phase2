@@ -7,7 +7,21 @@ import ToggleSwitch from '../components/ToggleSwitch';
 import AddEditFormCSS from './../styles/addEditForm.module.css';
 import { useHistory } from 'react-router';
 import AddEditDropzone from '../components/AddEditDropzone';
-import axios from 'axios';
+
+const GET_SURVEYS = gql`
+  query GetSurveys {
+    surveys {
+      _id
+      name
+      picURL
+      created
+      description
+      target
+      responses
+      status
+    }
+  }
+`;
 
 const CREATE_SURVEY = gql`
   mutation createSurvey(
@@ -33,10 +47,71 @@ const CREATE_SURVEY = gql`
   }
 `;
 
+const UPDATE_SURVEY = gql`
+  mutation updateSurvey(
+    $survId: ID!
+    $survName: String!
+    $survPicURL: String!
+    $survCreated: String!
+    $survDesc: String
+    $survTarget: Int!
+    $survResponses: Int!
+    $survStatus: Boolean!
+  ) {
+    updateSurvey(
+      id: $survId
+      input: {
+        name: $survName
+        picURL: $survPicURL
+        created: $survCreated
+        description: $survDesc
+        target: $survTarget
+        responses: $survResponses
+        status: $survStatus
+      }
+    ) {
+      _id
+      name
+      created
+      picURL
+      description
+      target
+      responses
+      status
+    }
+  }
+`;
+
 const AddEditForm = ({ loggedInAs, setLoggedInAs, setIsAuth }) => {
+  const [editing, setEditing] = useState();
   const [image, setImage] = useState('');
-  const [createSurvey] = useMutation(CREATE_SURVEY);
+  const [createSurvey] = useMutation(CREATE_SURVEY, {
+    refetchQueries: [
+      {
+        query: GET_SURVEYS,
+      },
+    ],
+  });
+  const [updateSurvey] = useMutation(UPDATE_SURVEY, {
+    refetchQueries: [
+      {
+        query: GET_SURVEYS,
+      },
+    ],
+  });
   const history = useHistory();
+
+  useEffect(() => {
+    if (history.location.state.isEditing !== null) {
+      setEditing(history.location.state.isEditing);
+    }
+  }, [history.location.state.isEditing]);
+
+  useEffect(() => {
+    if (history.location.state.picURL !== null) {
+      setImage(history.location.state.picURL);
+    }
+  }, [history.location.state.picURL]);
 
   return (
     <div>
@@ -58,15 +133,31 @@ const AddEditForm = ({ loggedInAs, setLoggedInAs, setIsAuth }) => {
               document.getElementById('survey_desc').value;
             let survey_status =
               document.getElementById('survey_status').checked;
-            createSurvey({
-              variables: {
-                survName: survey_name,
-                survPicURL: image,
-                survDesc: survey_description,
-                survTarget: parseInt(survey_target),
-                survStatus: survey_status,
-              },
-            }).catch((err) => console.error(err));
+
+            if (!editing) {
+              createSurvey({
+                variables: {
+                  survName: survey_name,
+                  survPicURL: image,
+                  survDesc: survey_description,
+                  survTarget: parseInt(survey_target),
+                  survStatus: survey_status,
+                },
+              }).catch((err) => console.error(err));
+            } else {
+              updateSurvey({
+                variables: {
+                  survId: history.location.state._id,
+                  survName: survey_name,
+                  survCreated: new Date(Date.now()).toLocaleString(),
+                  survPicURL: image,
+                  survDesc: survey_description,
+                  survTarget: parseInt(survey_target),
+                  survResponses: history.location.state.responses,
+                  survStatus: survey_status,
+                },
+              });
+            }
             history.goBack();
           }}
         >
@@ -75,6 +166,7 @@ const AddEditForm = ({ loggedInAs, setLoggedInAs, setIsAuth }) => {
             <FormLabelInput
               id="survey_name"
               label="Type Survey Name here.."
+              txt={history.location.state.name}
               type="text"
             />
           </div>
@@ -82,6 +174,7 @@ const AddEditForm = ({ loggedInAs, setLoggedInAs, setIsAuth }) => {
             <FormLabelInput
               id="survey_target"
               label="Type Survey Target.."
+              txt={history.location.state.target}
               type="number"
               min="1"
               max="20"
@@ -89,12 +182,19 @@ const AddEditForm = ({ loggedInAs, setLoggedInAs, setIsAuth }) => {
           </div>
           <div className={AddEditFormCSS.label_input_wrapper}>
             <label htmlFor="ta-desc">Please Type Survey Description</label>
-            <textarea id="survey_desc" name="ta-desc"></textarea>
+            <textarea
+              id="survey_desc"
+              name="ta-desc"
+              defaultValue={history.location.state.description}
+            ></textarea>
           </div>
           <div>
             <label>Upload a cover picture</label>
-            <AddEditDropzone setImage={setImage} />
-            <p>{image}</p>
+            <AddEditDropzone
+              editing={editing}
+              image={image}
+              setImage={setImage}
+            />
           </div>
           <h1>Advanced Settings</h1>
           <div className={AddEditFormCSS.published_toggler}>

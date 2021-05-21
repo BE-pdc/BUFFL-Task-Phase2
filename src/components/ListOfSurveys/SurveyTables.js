@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SurveyTablesCSS from './../../styles/surveyTables.module.css';
 import _ from 'lodash';
-import MOCK_DATA from '../../assets/MOCK_DATA.json';
 import SurveyTable from './SurveyTable';
 import { gql, useQuery } from '@apollo/client';
 
@@ -21,17 +20,19 @@ const GET_SURVEYS = gql`
 `;
 
 const SurveyTables = () => {
-  const { loading, error, data } = useQuery(GET_SURVEYS);
+  const { loading, error, data, refetch } = useQuery(GET_SURVEYS);
   const [myFavoriteSurveys, setMyFavoriteSurveys] = useState([]);
   const [myFavSurveysList, setMyFavSurveysList] = useState([]);
   const [otherCampaigns, setOtherCampaigns] = useState([]);
 
   useEffect(() => {
     if (data) {
-      const favSurvers = data.surveys.filter((x) =>
+      const favSurveys = data.surveys.filter((x) =>
         myFavoriteSurveys.includes(x._id)
       );
-      setMyFavSurveysList(favSurvers);
+      if (favSurveys !== null) {
+        setMyFavSurveysList(favSurveys);
+      }
     }
   }, [myFavoriteSurveys, data]);
 
@@ -40,7 +41,9 @@ const SurveyTables = () => {
       const otherCampaigns = data.surveys.filter(
         (x) => !myFavoriteSurveys.includes(x._id)
       );
-      setOtherCampaigns(otherCampaigns);
+      if (otherCampaigns !== null) {
+        setOtherCampaigns(otherCampaigns);
+      }
     }
   }, [myFavoriteSurveys, data]);
 
@@ -75,6 +78,7 @@ const SurveyTables = () => {
         removeSurveyFromFav={removeSurveyFromFav}
         showStar={true}
         noDataText="No Favorites"
+        refetchData={refetch}
       />
       <h2>Other campaigns</h2>
       <SurveyTable
@@ -82,6 +86,7 @@ const SurveyTables = () => {
         addSurveyToFav={addSurveyToFav}
         showStar={false}
         noDataText="No Other Campaigns"
+        refetchData={refetch}
       />
     </div>
   );

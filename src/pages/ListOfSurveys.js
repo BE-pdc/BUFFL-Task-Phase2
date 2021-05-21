@@ -8,7 +8,9 @@ const ListOfSurveys = ({ loggedInAs, setLoggedInAs, setIsAuth }) => {
   let history = useHistory();
 
   const openAddEditForm = () => {
-    history.push('/add-edit-form');
+    history.push('/add-edit-form', {
+      isEditing: false,
+    });
   };
 
   return (

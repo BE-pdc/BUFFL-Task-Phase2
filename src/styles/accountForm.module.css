@@ -45,6 +45,7 @@
 .form label {
   font-size: small;
   font-weight: bold;
+  margin-top: 10px;
 }
 
 .form input {
